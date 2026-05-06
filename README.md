@@ -79,10 +79,20 @@ Mac 端执行的步骤（全部通过 mac-r 远程完成）：
 
 ### 3. ios_TTS 功能
 
+App 包含两个 Tab：
+
+**Tab 1 — 网页朗读**
 - 输入 URL，抓取网页内容，去除 HTML 标签提取纯文字
 - 使用 Sherpa-ONNX + MeloTTS 神经网络模型离线合成语音
 - 可调语速（0.5x ~ 2.0x）
-- 完全离线，TTS 不需要网络
+- TTS 完全离线，不需要网络
+
+**Tab 2 — 论文翻译朗读**
+- 输入任意论文 PDF 链接（如 `https://arxiv.org/pdf/2509.20021`）
+- PDFKit 提取 PDF 全文文字
+- Google Translate API 自动翻译成中文（分段翻译，无需 API Key）
+- 翻译结果保存到本地（Documents 目录）
+- Sherpa-ONNX 离线语音朗读翻译后的中文内容
 
 ### 4. 关键技术点
 
@@ -90,6 +100,8 @@ Mac 端执行的步骤（全部通过 mac-r 远程完成）：
 - **项目生成**：使用 xcodegen 从 `project.yml` 生成 Xcode 项目，避免手写 pbxproj
 - **模型打包**：model-files 目录作为 folder reference 打包进 app bundle
 - **TTS 引擎**：Sherpa-ONNX (k2-fsa) + VITS MeloTTS 中英文模型，纯离线推理
+- **PDF 解析**：iOS 原生 PDFKit 提取文字，无需第三方库
+- **论文翻译**：Google Translate 免费 API 分段翻译，自动拼接结果
 
 ## 依赖
 
